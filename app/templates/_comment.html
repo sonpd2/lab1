@@ -1,0 +1,23 @@
+{% import 'bootstrap/wtf.html' as wtf %}
+{% for comment in post.comments %}
+{% if comment.author.username == current_user.username or comment.author.username == post.author.username or current_user.username == post.author.username %}
+{% set user_link %}
+    <span class="user_popup">
+        <a href="{{ url_for('main.user', username=comment.author.username) }}">
+            {{ comment.author.username }}
+        </a>
+    </span>
+{% endset %}
+{{ _('%(username)s commented %(when)s:',username=user_link, when=moment(comment.timestamp).fromNow()) }} {{comment.body}}
+{% if comment.file_name %}
+<a href="{{ url_for('main.download_file_from_comment', file_name=comment.file_name) }}"><strong>Attach File</strong>: {{ comment.file_name }}</a></td>
+{% endif %}
+<br>
+{% endif %}
+{% endfor %}
+
+
+<form action="" method="post" enctype="multipart/form-data">
+        {{ comment_form.post_id(value=post.id) }}
+        {{ wtf.quick_form(comment_form) }}
+</form>

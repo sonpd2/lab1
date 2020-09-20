@@ -1,0 +1,26 @@
+<head>
+<script>
+  $('#modal').on('show.bs.modal', function () {
+       $(this).find('.modal-body').css({
+              width:'auto', //probably not needed
+              height:'auto', //probably not needed
+              'max-height':'100%'
+       });
+});
+</script>
+
+</head>
+<body>
+<div class="modal fade bd-example-modal-lg" id="resultcheckchallenge" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h5 class="modal-title text-center" style= "margin: 0 auto;" id="exampleModalLabel">Result</h5>
+          </div>
+          <div class="modal-body">
+                <p id="bodycheckchallenge"></p>
+          </div>
+    </div>
+  </div>
+</div>
+</body>

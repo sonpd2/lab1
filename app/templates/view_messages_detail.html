@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <h1>{{ _('Messages with %(recipient)s', recipient=recipient) }}</h1>
+    {% for message in messages %}
+        {% include '_message.html' %}
+    {% endfor %}
+
+    <h1>{{ _('Send Message') }}</h1>
+    <div class="row">
+        <div class="col-md-4">
+            {{ wtf.quick_form(form) }}
+        </div>
+    </div>
+{% endblock %}

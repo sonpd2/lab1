@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <h1>{{ _('Hi, %(username)s!', username=current_user.username) }}</h1>
+    <br>
+        {% include '_post.html' %}
+        {% for comment in post.comments %}
+            {% if comment.author.username == current_user.username or comment.author.username == post.author.username or current_user.username == post.author.username %}
+                {% set user_link %}
+                    <span class="user_popup">
+                        <a href="{{ url_for('main.user', username=comment.author.username) }}">
+                            {{ comment.author.username }}
+                        </a>
+                    </span>
+                {% endset %}
+                {{ _('%(username)s commented %(when)s:',username=user_link, when=moment(comment.timestamp).fromNow()) }} {{comment.body}}
+                {% if comment.file_name %}
+                    <a href="{{ url_for('main.download_file_from_comment', file_name=comment.file_name) }}"><strong>Attach File</strong>: {{ comment.file_name }}</a></td>
+                {% endif %}
+                <br>
+            {% endif %}
+        {% endfor %}
+
+        {% if answer_form %}
+        {{ wtf.quick_form(answer_form) }}
+        {% endif %}
+        {% if info %}
+        <p>Title: {{ info.answer }}</p>
+        <p>Content: </p>
+        <p class="text-success">{{ info.data }}</p>
+        {% endif %}
+{% endblock %}

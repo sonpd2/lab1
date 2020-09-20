@@ -1,0 +1,30 @@
+    <table class="table table-hover">
+        <tr>
+            <td width="70px">
+                <a href="{{ url_for('main.user', username=message.author.username) }}">
+                    <img src="{{ message.author.avatar(70) }}" />
+                </a>
+            </td>
+            <td>
+                {% set user_link %}
+                    <span class="user_popup">
+                        <a href="{{ url_for('main.user', username=message.author.username) }}">
+                            {{ message.author.username }}
+                        </a>
+                    </span>
+                {% endset %}
+                {{ _('%(username)s said %(when)s:',username=user_link, when=moment(message.timestamp).fromNow()) }}
+                <br>
+                <strong>Privacy:</strong> {% if message.privacy==0 %}Public{% else %}Private{% endif %}
+                <br>
+                <span><strong>Content:</strong> {{ message.body }}</span>
+                <br>
+                {% if message.file_name %}
+                <a href="{{ url_for('message.download_file_from_post', file_name=message.file_name) }}"><strong>Attach File</strong>: {{ message.file_name }}</a></td>
+                {% endif %}
+                {% if message.sender_id == current_user.id %}
+                <a href="{{ url_for('main.edit_message', id=message.id) }}">Edit</a>
+                {% endif %}
+            </td>
+        </tr>
+    </table>

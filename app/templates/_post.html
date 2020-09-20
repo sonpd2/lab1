@@ -1,0 +1,29 @@
+    <table class="table table-hover">
+        <tr>
+            <td width="70px">
+                <a href="{{ url_for('main.user', username=post.author.username) }}">
+                    <img src="{{ post.author.avatar(70) }}" />
+                </a>
+            </td>
+            <td>
+                {% set user_link %}
+                    <span class="user_popup">
+                        <a href="{{ url_for('main.user', username=post.author.username) }}">
+                            {{ post.author.username }}
+                        </a>
+                    </span>
+                {% endset %}
+                {{ _('%(username)s said %(when)s:',username=user_link, when=moment(post.timestamp).fromNow()) }}
+                <br>
+                <strong>Privacy:</strong> {% if post.privacy==0 %}Public{% else %}Private{% endif %}
+                <br>
+                <strong>Type:</strong> {% if post.is_challenge==1 %}Challenge{% else %}Post{% endif %}
+                <br>
+                <span id="post{{ post.id }}"><strong>Content:</strong> {{ post.body }}</span>
+                <br>
+                {% if post.file_name and post.is_challenge == 0 %}
+                <a href="{{ url_for('main.download_file_from_post', file_name=post.file_name) }}"><strong>Attach File</strong>: {{ post.file_name }}</a></td>
+                {% endif %}
+            </td>
+        </tr>
+    </table>

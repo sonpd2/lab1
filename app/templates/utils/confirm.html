@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
+<script>
+$(document).ready(function(){
+function ConfirmFirst() {
+return confirm("Are you sure?");
+}//end function
+
+$(".form").submit(function(event){
+var $confirm = ConfirmFirst()
+if ($confirm == true) {
+    console.log("confirmed")
+}//end if
+else
+{
+    event.preventDefault();
+}//end else
+})//end binding form
+
+})//end document
+</script>
+</head>
