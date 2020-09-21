@@ -52,3 +52,8 @@ class ResetPasswordForm(FlaskForm):
     password2 = PasswordField(
         _l('Repeat Password'), validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField(_l('Request Password Reset'))
+    
+    def validate_password(self, password):
+        check = safe.check(password.data)
+        if repr(check) in ('terrible','simple'):
+            raise ValidationError(_l(f'A {repr(check)} password. Please use a different password.'))
