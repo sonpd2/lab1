@@ -386,19 +386,22 @@ def conversation():
 @bp.route('/view_messages_detail/<username>', methods = ['GET','POST'])
 @login_required
 def view_messages_detail(username):
-    user = User.query.filter_by(username = username).first_or_404()
-    messages = Message.query.filter(and_( or_(Message.recipient_id == current_user.id, Message.sender_id == current_user.id), or_(Message.sender_id == user.id, Message.recipient_id == user.id))).order_by(Message.timestamp.asc()).all()
+    if (username!=current_user.username):
+        user = User.query.filter_by(username = username).first_or_404()
+        messages = Message.query.filter(and_( or_(Message.recipient_id == current_user.id, Message.sender_id == current_user.id), or_(Message.sender_id == user.id, Message.recipient_id == user.id))).order_by(Message.timestamp.asc()).all()
 
-    form = MessageForm()
-    if form.validate_on_submit():
-        msg = Message(author=current_user, recipient=user, body=form.message.data)
-        db.session.add(msg)
-        user.add_notification('unread_message_count', user.new_messages())
-        db.session.commit()
-        flash(_('Your message has been sent.'))
-        return redirect(url_for('main.view_messages_detail', username=username))
+        form = MessageForm()
+        if form.validate_on_submit():
+            msg = Message(author=current_user, recipient=user, body=form.message.data)
+            db.session.add(msg)
+            user.add_notification('unread_message_count', user.new_messages())
+            db.session.commit()
+            flash(_('Your message has been sent.'))
+            return redirect(url_for('main.view_messages_detail', username=username))
 
-    return render_template('view_messages_detail.html', messages=messages, form=form, recipient=username)
+        return render_template('view_messages_detail.html', messages=messages, form=form, recipient=username)
+    else:
+        abort(404)
 
 @bp.route('/notifications')
 @login_required
