@@ -54,7 +54,7 @@ class ChangePassForm(FlaskForm):
     def validate_new_password(self, new_password):
         user = User.query.filter_by(username=self.original_username).first()
         if user.check_password(password=new_password.data):
-            raise ValidationError(_l('New password must different old password.')
+            raise ValidationError(_l('New password must different old password.'))
 
         check = safe.check(new_password.data)
         if repr(check) in ('terrible', 'simple'):
