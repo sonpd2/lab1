@@ -1,4 +1,5 @@
 from flask_admin.contrib.sqla import ModelView
+from flask_admin.form import SecureForm
 from app import admin
 from app import db
 from app.models import User, Post, Task, Notification, Comment, Message
@@ -6,6 +7,7 @@ from flask_login import current_user
 from flask_admin.menu import MenuLink
 
 class MyModelAdminViewBase(ModelView):
+    form_base_class = SecureForm
     column_display_pk = True
     can_delete = True
     can_create = True
